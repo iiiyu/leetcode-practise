@@ -22,122 +22,47 @@ class Solution {
      * @return ListNode
      */
     function addTwoNumbers($l1, $l2) {
-        $l3 = null;
-        $lastItem1 = null;
-        $lastItem2 = null;
-        $lastItem3 = null;
-        $flag = false;
-        $whileFlag = false;
-        do {
-            // 第一次进入
-            if (is_null($lastItem1)){
-                $lastItem1 = $l1;
-                $lastItem2 = $l2;
-               
-                $sum = $lastItem1->val + $lastItem2->val;
-                $flag = $sum > 9;
-                $sum = $sum % 10;
-                $l3 = new ListNode($sum);
-                if (isset($lastItem1->next)){
-                    $lastItem1 = $lastItem1->next;
-                }
-                
-                if (isset($lastItem2->next)){
-                    $lastItem2 = $lastItem2->next;
-                }
-
-                $lastItem3 = $l3;
-                // 判断是否跳出
-                $whileFlag = (is_null($lastItem1->next) && is_null($lastItem2->next));
-                if ($whileFlag) {
-                    if ($flag) {
-                        $item = new ListNode(1);
-                        $lastItem3->next = $item;
-                        $flag = false;
-                    }
+        $listToInt = function (ListNode $list) {
+            $i = 1;
+            $result = 0;
+            while(true){
+                if (!$list->next) {
+                    $result = $result + $list->val * $i;
+                    $list = $list->next;
+                    $i = $i * 10;
                     break;
                 }
-                continue;
-               
+                $result = $result + $list->val * $i;
+                $list = $list->next;
+                $i = $i * 10;
             }
-            
+            return $result;
+        };
 
-            $whileFlag = is_null($lastItem1->next) && is_null($lastItem2->next);
+        $intToList = function (Int $num) {
+            $result = null;
+            $lastItem = null;
+            $i = 0;
+            while (true) {
+                $i = $num % 10;
+                if (!($i) && $num < 10) {
+                    break;
+                }
 
-
-            if ((is_null($lastItem1->next) && isset($lastItem2->next)) || $whileFlag) {
-
-            // 只用l2
-                if ($flag) {
-                    $sum = $lastItem2->val + 1;
-                    $flag = $sum > 9;
-                    $sum = $sum % 10;
+                if (is_null($result)) {
+                    echo var_dump($i);
+                    $result = new ListNode($i);
+                    $lastItem = $result;
                 } else {
-                    $sum = $lastItem2->val;
+                    $item = new ListNode($i);
+                    $lastItem->next = $item;
+                    $lastItem = $item;
                 }
-                $item = new ListNode($sum);
-                $lastItem3->next = $item;
-                $lastItem3 = $item;
-                if (isset($lastItem2->next)){
-                    $lastItem2 = $lastItem2->next;
-                }
-                continue;
-
-            } 
-            
-            if ((is_null($lastItem2->next) && isset($lastItem1->next)) || $whileFlag) {
-
-            // 只用l1
-                if ($flag) {
-                    $sum = $lastItem1->val + 1;
-                    $flag = $sum > 9;
-                    $sum = $sum % 10;
-                } else {
-                    $sum = $lastItem1->val;
-                }
-                $item = new ListNode($sum);
-                $lastItem3->next = $item;
-                $lastItem3 = $item;
-                if (isset($lastItem1->next)){
-                    $lastItem1 = $lastItem1->next;
-                }
-                continue;
-            } 
-            
-            if (isset($lastItem1->next) && isset($lastItem2->next) || $whileFlag) {
-
-                // ls1、ls2都用
-                if ($flag) {
-                    $sum = $lastItem1->val + $lastItem2->val + 1;
-                    $flag = $sum > 9;
-                    $sum = $sum % 10;
-                } else {
-                    $sum = $lastItem1->val + $lastItem2->val;
-                    $flag = $sum > 9;
-                    $sum = $sum % 10;
-                }
-                $item = new ListNode($sum);
-                $lastItem3->next = $item;
-                $lastItem3 = $item;
-
-                if ($lastItem1->next){
-                    $lastItem1 = $lastItem1->next;
-                }
-
-                if ($lastItem2->next){
-                    $lastItem2 = $lastItem2->next;
-                }
-                continue;
+                $num = intval($num / 10);
             }
-        } while (!$whileFlag);
-
-        if ($flag) {
-            $item = new ListNode(1);
-            $lastItem3->next = $item;
-            $flag = false;
-        }
-
-        return $l3;
+            return $result;
+        };
+        return $intToList(($listToInt($l1) + $listToInt($l2)));
     }
 }
 
