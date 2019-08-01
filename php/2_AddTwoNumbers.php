@@ -23,8 +23,6 @@ class Solution {
      */
     function addTwoNumbers($l1, $l2) {
         $l3 = null;
-        $lastItem1 = $l1;
-        $lastItem2 = $l2;
         $lastItem3 = null;
         $carryFlag = false;
         $exitFlag = false;
