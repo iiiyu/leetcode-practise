@@ -22,53 +22,76 @@ class Solution {
      * @return ListNode
      */
     function addTwoNumbers($l1, $l2) {
-        $listToInt = function (ListNode $list) {
-            $i = 1;
-            $result = 0;
-            while(true){
-                if (!$list->next) {
-                    $result = $result + $list->val * $i;
-                    $list = $list->next;
-                    $i = $i * 10;
+        $l3 = null;
+        $lastItem1 = $l1;
+        $lastItem2 = $l2;
+        $lastItem3 = null;
+        $carryFlag = false;
+        $exitFlag = false;
+        do {
+            // 第一次进入
+            if (is_null($lastItem3)){
+                $sum = $l1->val + $l2->val;
+                $carryFlag = $sum > 9;
+                $sum = $sum % 10;
+                $l3 = new ListNode($sum);
+                $l1 = $l1->next;
+                $l2 = $l2->next;
+                $lastItem3 = $l3;
+                // 判断是否跳出
+                $exitFlag = is_null($l1) && is_null($l2);
+                if ($exitFlag) {
+                    if ($carryFlag) {
+                        $item = new ListNode(1);
+                        $lastItem3->next = $item;
+                        $carryFlag = false;
+                    }
                     break;
                 }
-                $result = $result + $list->val * $i;
-                $list = $list->next;
-                $i = $i * 10;
-            }
-            return $result;
-        };
-
-        $intToList = function (Int $num) {
-            $result = null;
-            $lastItem = null;
-            $i = 0;
-            while (true) {
-                $i = $num % 10;
-                if (!($i) && $num < 10) {
-                    break;
-                }
-
-                if (is_null($result)) {
-                    echo var_dump($i);
-                    $result = new ListNode($i);
-                    $lastItem = $result;
+            } else {
+                if ($carryFlag) {
+                    $sum = 1;
                 } else {
-                    $item = new ListNode($i);
-                    $lastItem->next = $item;
-                    $lastItem = $item;
+                    $sum = 0;
                 }
-                $num = intval($num / 10);
+
+                $carryFlag = false;
+
+                if ($l1) {
+                    $sum = $sum + $l1->val;
+                    $l1 = $l1->next;
+                }
+
+                if ($l2) {
+                    $sum = $sum + $l2->val;
+                    $l2 = $l2->next;
+                }
+
+                $carryFlag = $sum > 9;
+                $sum = $sum % 10;
+
+                $item = new ListNode($sum);
+                $lastItem3->next = $item;
+                $lastItem3 = $item;
+
+                if (is_null($l1) && is_null($l2))
+                {
+                    if ($carryFlag) {
+                        $item = new ListNode(1);
+                        $lastItem3->next = $item;
+                        $carryFlag = false;
+                    }
+                    break;
+                }
             }
-            return $result;
-        };
-        return $intToList(($listToInt($l1) + $listToInt($l2)));
+        } while (true);
+        return $l3;
     }
 }
 
 
 
-$array1 = [1,8];
+$array1 = [1,8,3];
 $array2 = [0];
 
 $l1 = null;
@@ -96,9 +119,6 @@ foreach ($array2 as $key => $value) {
         $lastItem2 = $l2;
     }
 }
-
-// echo var_dump($l1);
-// echo var_dump($l2);
 
 
 $solution = new Solution();
