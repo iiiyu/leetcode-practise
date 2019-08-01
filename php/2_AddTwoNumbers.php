@@ -8,27 +8,34 @@
  * }
  */
 
-class ListNode {
+class ListNode
+{
     public $val = 0;
     public $next = null;
-    function __construct($val) { $this->val = $val; }
+    
+    function __construct($val)
+    {
+        $this->val = $val;
+    }
 }
 
-class Solution {
-
+class Solution
+{
+    
     /**
      * @param ListNode $l1
      * @param ListNode $l2
      * @return ListNode
      */
-    function addTwoNumbers($l1, $l2) {
+    function addTwoNumbers($l1, $l2)
+    {
         $l3 = null;
         $lastItem3 = null;
         $carryFlag = false;
         $exitFlag = false;
         do {
             // 第一次进入
-            if (is_null($lastItem3)){
+            if (is_null($lastItem3)) {
                 $sum = $l1->val + $l2->val;
                 $carryFlag = $sum > 9;
                 $sum = $sum % 10;
@@ -52,28 +59,27 @@ class Solution {
                 } else {
                     $sum = 0;
                 }
-
+                
                 $carryFlag = false;
-
+                
                 if ($l1) {
                     $sum = $sum + $l1->val;
                     $l1 = $l1->next;
                 }
-
+                
                 if ($l2) {
                     $sum = $sum + $l2->val;
                     $l2 = $l2->next;
                 }
-
+                
                 $carryFlag = $sum > 9;
                 $sum = $sum % 10;
-
+                
                 $item = new ListNode($sum);
                 $lastItem3->next = $item;
                 $lastItem3 = $item;
-
-                if (is_null($l1) && is_null($l2))
-                {
+                
+                if (is_null($l1) && is_null($l2)) {
                     if ($carryFlag) {
                         $item = new ListNode(1);
                         $lastItem3->next = $item;
@@ -88,8 +94,7 @@ class Solution {
 }
 
 
-
-$array1 = [1,8,3];
+$array1 = [1, 8, 3];
 $array2 = [0];
 
 $l1 = null;
