@@ -13,7 +13,6 @@ class Solution
         }
         $begin = 0;
         $compare = 1;
-        $maxString = '';
         $maxLenght = 1;
         $currentLenght = 1;
         
