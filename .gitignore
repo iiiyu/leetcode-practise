@@ -1,2 +1,4 @@
 /.idea
 .idea
+golang/*
+!golang/*.go
