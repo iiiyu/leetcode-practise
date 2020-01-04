@@ -1,6 +1,6 @@
 package main
 
-import "fmt"
+//import "fmt"
 
 //func isMatchHere(sArray []rune, pArray []rune) bool {
 //	if len(pArray) == 0 {
