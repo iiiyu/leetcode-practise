@@ -18,7 +18,9 @@ func main() {
 	
 //	fmt.Println(intToRoman(58))
 	
-	fmt.Println(romanToInt("MCMXCIV"))
+//	fmt.Println(romanToInt("MCMXCIV"))
+	
+	fmt.Println(longestCommonPrefix([]string{"flower","flow","flight"}))
 
 
 
